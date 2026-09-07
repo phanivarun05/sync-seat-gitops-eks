@@ -1,0 +1,11 @@
+name: Blank Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  do-nothing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Acknolwedge the job
+        run: echo "Hello, world!"
