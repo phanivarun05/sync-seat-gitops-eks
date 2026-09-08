@@ -1,0 +1,4 @@
+{
+  "name": "Sync Seat Dev Environment",
+  "postCreateCommand": "mkdir -p ~/.kube && echo 'apiVersion: v1\nclusters:\n- cluster:\n    insecure-skip-tls-verify: true\n    server: https://127.0.0.1:6443\n  name: kind-sync-seat\ncontexts:\n- context:\n    cluster: kind-sync-seat\n    user: kind-sync-seat\n  name: kind-sync-seat\ncurrent-context: kind-sync-seat\nkind: Config\nusers:\n- name: kind-sync-seat\n  user:\n    token: placeholder' > ~/.kube/config"
+}
