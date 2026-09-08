@@ -1,0 +1,9 @@
+{
+  "name": "Sync Seat Automated K3s Env",
+  "image": "://microsoft.com",
+  "runArgs": ["--privileged"],
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:1": {}
+  },
+  "postCreateCommand": "curl -sfL https://k3s.io | sh -s - --write-kubeconfig-mode 644 && mkdir -p ~/.kube && ln -sf /etc/rancher/k3s/k3s.yaml ~/.kube/config"
+}
