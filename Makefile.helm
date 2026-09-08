@@ -1,0 +1,187 @@
+# ============================================================
+# Sync Seat Helm Makefile
+# ============================================================
+
+NAMESPACE := sync-seat
+HELM := helm
+CHART_DIR := helm/syncseat/charts
+
+# ============================================================
+# Infrastructure
+# ============================================================
+
+infra: postgres redis 
+
+postgres:
+    $(HELM) upgrade --install postgres $(CHART_DIR)/postgres -n $(NAMESPACE)
+
+redis:
+	$(HELM) upgrade --install redis $(CHART_DIR)/redis -n $(NAMESPACE)
+
+
+
+# ============================================================
+# Application Services
+# ============================================================
+
+
+
+# ============================================================
+# Front-end React apps
+# ============================================================
+
+
+# ============================================================
+# Full Deployment
+# ============================================================
+
+all: infra 
+
+# ============================================================
+# Utilities
+# ============================================================
+
+pods:
+	kubectl get pods -n $(NAMESPACE)
+
+svc:
+	kubectl get svc -n $(NAMESPACE)
+
+deploy:
+	kubectl get deployments -n $(NAMESPACE)
+
+cm:
+	kubectl get configmaps -n $(NAMESPACE)
+
+pvc:
+	kubectl get pvc -n $(NAMESPACE)
+
+events:
+	kubectl get events -n $(NAMESPACE) --sort-by=.metadata.creationTimestamp
+
+# ============================================================
+# Logs
+# ============================================================
+
+logs-catalog:
+	kubectl logs deployment/catalog -n $(NAMESPACE) --tail=100
+
+logs-user:
+	kubectl logs deployment/user -n $(NAMESPACE) --tail=100
+
+logs-order:
+	kubectl logs deployment/order -n $(NAMESPACE) --tail=100
+
+logs-payment:
+	kubectl logs deployment/payment -n $(NAMESPACE) --tail=100
+
+logs-cart:
+	kubectl logs deployment/cart -n $(NAMESPACE) --tail=100
+
+logs-shipping:
+	kubectl logs deployment/shipping -n $(NAMESPACE) --tail=100
+
+logs-courier:
+	kubectl logs deployment/courier -n $(NAMESPACE) --tail=100
+
+# ============================================================
+# Cleanup
+# ============================================================
+
+clean-app:
+	
+
+clean-infra:
+	-helm uninstall postgres -n $(NAMESPACE)
+	-helm uninstall redis -n $(NAMESPACE)
+	
+
+clean-web:
+	
+clean:  clean-infra 
+# ============================================================
+# Helm Validation
+# ============================================================
+
+lint-catalog:
+	helm lint $(CHART_DIR)/catalog
+
+template-catalog:
+	helm template catalog $(CHART_DIR)/catalog
+
+lint-mysql:
+	helm lint $(CHART_DIR)/mysql
+
+template-mysql:
+	helm template mysql $(CHART_DIR)/mysql
+
+# ============================================================
+# Help
+# ============================================================
+
+help:
+	@echo ""
+	@echo "Infrastructure:"
+	@echo "  make -f Makefile.helm infra"
+	@echo ""
+	@echo "Application:"
+	@echo "  make -f Makefile.helm catalog"
+	@echo "  make -f Makefile.helm user"
+	@echo "  make -f Makefile.helm order"
+	@echo ""
+	@echo "Deploy everything:"
+	@echo "  make -f Makefile.helm all"
+	@echo ""
+	@echo "Status:"
+	@echo "  make -f Makefile.helm pods"
+	@echo "  make -f Makefile.helm svc"
+	@echo "  make -f Makefile.helm deploy"
+	@echo ""
+	@echo "Cleanup:"
+	@echo "  make -f Makefile.helm clean"
+	@echo ""
+
+# ============================================================
+# Install Beer-shop
+# ============================================================
+
+install-beer-shop:
+	helm upgrade --install beer-shop \
+	helm/beer-shop \
+	-n beer-shop
+
+install-beer-shop-dev:
+	helm upgrade --install beer-shop \
+	helm/beer-shop \
+	-f helm/beer-shop/values-dev.yaml \
+	-n beer-shop
+
+install-beer-shop-prod:
+	helm upgrade --install beer-shop \
+	helm/beer-shop \
+	-f helm/beer-shop/values-prod.yaml \
+	-n beer-shop
+
+# ============================================================
+# CI Validation
+# ============================================================
+
+helm-lint:
+	$(HELM) lint helm/beer-shop
+
+helm-template:
+	$(HELM) template beer-shop helm/beer-shop \
+		-f helm/beer-shop/values-dev.yaml \
+		> /tmp/beer-shop-rendered.yaml
+
+# ============================================================
+# Kubernetes Manifest Validation
+# ============================================================
+
+k8s-validate:
+	$(HELM) template beer-shop helm/beer-shop \
+		-f helm/beer-shop/values-dev.yaml \
+		| kubeconform -strict -summary
+
+helm-validate: helm-lint helm-template k8s-validate
+	@echo "Helm and Kubernetes validation passed"
