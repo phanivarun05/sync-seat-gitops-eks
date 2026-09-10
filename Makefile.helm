@@ -24,18 +24,32 @@ redis:
 # Application Services
 # ============================================================
 
+microservices: booking mail homepage api-gateway
 
+booking:
+	$(HELM) upgrade --install booking $(CHART_DIR)/booking -n $(NAMESPACE)
+
+mail:
+	$(HELM) upgrade --install mail $(CHART_DIR)/mail -n $(NAMESPACE)
+
+homepage:
+	$(HELM) upgrade --install homepage $(CHART_DIR)/homepage -n $(NAMESPACE)
+
+api-gateway:
+	$(HELM) upgrade --install api-gateway $(CHART_DIR)/api-gateway -n $(NAMESPACE)
 
 # ============================================================
 # Front-end React apps
 # ============================================================
 
+frontend:
+	$(HELM) upgrade --install frontend $(CHART_DIR)/frontend -n $(NAMESPACE)
 
 # ============================================================
 # Full Deployment
 # ============================================================
 
-all: infra 
+all: infra microservices frontend
 
 # ============================================================
 # Utilities
