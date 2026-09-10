@@ -13,7 +13,7 @@ CHART_DIR := helm/syncseat/charts
 infra: postgres redis 
 
 postgres:
-    $(HELM) upgrade --install postgres $(CHART_DIR)/postgres -n $(NAMESPACE)
+	$(HELM) upgrade --install postgres $(CHART_DIR)/postgres -n $(NAMESPACE)
 
 redis:
 	$(HELM) upgrade --install redis $(CHART_DIR)/redis -n $(NAMESPACE)
