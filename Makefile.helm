@@ -103,6 +103,8 @@ logs-courier:
 # ============================================================
 
 clean-app:
+	-helm uninstall booking -n $(NAMESPACE)
+	-helm uninstall api-gateway -n $(NAMESPACE)
 	
 
 clean-infra:
@@ -112,7 +114,7 @@ clean-infra:
 
 clean-web:
 	
-clean:  clean-infra 
+clean:  clean-infra clean-app
 # ============================================================
 # Helm Validation
 # ============================================================
