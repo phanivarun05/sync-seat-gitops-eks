@@ -105,6 +105,8 @@ logs-courier:
 clean-app:
 	-helm uninstall booking -n $(NAMESPACE)
 	-helm uninstall api-gateway -n $(NAMESPACE)
+	-helm uninstall mail -n $(NAMESPACE)
+	-helm uninstall homepage -n $(NAMESPACE)
 	
 
 clean-infra:
@@ -113,8 +115,9 @@ clean-infra:
 	
 
 clean-web:
+	-helm uninstall frontend -n $(NAMESPACE)
 	
-clean:  clean-infra clean-app
+clean:  clean-infra clean-app clean-web
 # ============================================================
 # Helm Validation
 # ============================================================
