@@ -1,0 +1,24 @@
+dependencies:
+- name: postgres
+  repository: file://charts/postgres
+  version: 0.1.0
+- name: redis
+  repository: file://charts/redis
+  version: 0.1.0
+- name: booking
+  repository: file://charts/booking
+  version: 0.1.0
+- name: mail
+  repository: file://charts/mail
+  version: 0.1.0
+- name: homepage
+  repository: file://charts/homepage
+  version: 0.1.0
+- name: api-gateway
+  repository: file://charts/api-gateway
+  version: 0.1.0
+- name: frontend
+  repository: file://charts/frontend
+  version: 0.1.0
+digest: sha256:fb9cc4e701ca637cbf8992ea683148b0de1a3e80695140db773af27bb053e504
+generated: "2026-09-12T04:43:15.053398153Z"

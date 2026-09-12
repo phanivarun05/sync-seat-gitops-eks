@@ -1,0 +1,106 @@
+# ==========================================================
+# Development Environment (Kind)
+# ==========================================================
+
+global:
+  namespace: sync-seat
+
+  imagePullPolicy: Always
+
+  storageClass: standard
+
+  environment: 
+    name: development
+    type: development
+
+# ==========================================================
+# Infrastructure
+# ==========================================================
+
+postgres:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+
+redis:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 150m
+      memory: 128Mi
+
+# ==========================================================
+# Backend Services
+# ==========================================================
+
+booking:
+  image:
+    tag: "sha-9c97377"
+  replicaCount: 3
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+mail:
+  image:
+    tag: "sha-9c97377"
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+homepage:
+  image:
+    tag: "sha-9c97377"
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+api-gateway:
+  image:
+    tag: "sha-9c97377"
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+
+# ==========================================================
+# Frontend
+# ==========================================================
+
+frontend:
+  image:
+    tag: "sha-9c97377"
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
