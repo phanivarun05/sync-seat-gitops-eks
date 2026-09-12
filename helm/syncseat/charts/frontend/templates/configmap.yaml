@@ -10,22 +10,28 @@ data:
         listen 80;
         server_name localhost;
 
+        # 1. Serve the React static application assets
         location / {
             root /usr/share/nginx/html;
             index index.html index.htm;
             try_files $uri $uri/ /index.html;
         }
 
-        # Simplified in-cluster CoreDNS proxy tracking block
+        # 2. Reverse proxy routing to bypass the hardcoded backend CORS check
         location /api/ {
-            # FIX: Use the native short-form Service name mapped inside your namespace
+            # Pass traffic directly to the gateway container on the internal Docker network
             proxy_pass http://api-gateway:4000/;
-            
-            proxy_set_header Origin "http://localhost:3000";
-            proxy_set_header Host "localhost:4000";
+
+            # Strip out the origin header so the backend's `!origin` check triggers true
+            proxy_set_header Origin "";
+
+            # Standard proxy headers for headers preservation
+            proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
+
+            # Ensure credentials/cookies pass through the proxy cleanly
             proxy_cookie_path / "/";
         }
     }
