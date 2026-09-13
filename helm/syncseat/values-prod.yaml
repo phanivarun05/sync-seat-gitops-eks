@@ -35,7 +35,7 @@ booking:
   replicaCount: 3
   
   image:
-    tag: "sha-f7204ad"
+    tag: "sha-fc7969d3054f67b95676e05e804613b7497b063f"
 
   resources:
     requests:
@@ -60,7 +60,7 @@ mail:
   replicaCount: 3
   
   image:
-    tag: "sha-f7204ad"
+    tag: "sha-fc7969d3054f67b95676e05e804613b7497b063f"
 
   resources:
     requests:
@@ -85,7 +85,7 @@ homepage:
   replicaCount: 3
   
   image:
-    tag: "sha-f7204ad"
+    tag: "sha-fc7969d3054f67b95676e05e804613b7497b063f"
 
   resources:
     requests:
@@ -111,7 +111,7 @@ api-gateway:
   replicaCount: 3
   
   image:
-    tag: "sha-f7204ad"
+    tag: "sha-fc7969d3054f67b95676e05e804613b7497b063f"
 
   resources:
     requests:
@@ -142,7 +142,7 @@ frontend:
   replicaCount: 3
 
   image:
-    tag: "sha-f7204ad"
+    tag: "sha-fc7969d3054f67b95676e05e804613b7497b063f"
 
     
 # ==========================================================
