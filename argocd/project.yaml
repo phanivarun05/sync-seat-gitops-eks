@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: sync-seat
+  namespace: argocd
+spec:
+  description: Sync Seat GitOps project
+
+  sourceRepos:
+    - https://github.com/phanivarun05/sync-seat-gitops-eks.git
+
+  destinations:
+    - namespace: sync-seat
+      server: https://172.18.0.3:6443
+
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+
+  namespaceResourceWhitelist:
+    - group: ""
+      kind: ConfigMap
+    - group: ""
+      kind: Secret
+    - group: ""
+      kind: Service
+    - group: ""
+      kind: PersistentVolumeClaim
+    - group: apps
+      kind: Deployment
+    - group: ""
+      kind: Pod
+    - group: apps
+      kind: ReplicaSet
