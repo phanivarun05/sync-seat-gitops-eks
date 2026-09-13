@@ -122,17 +122,17 @@ clean:  clean-infra clean-app clean-web
 # Helm Validation
 # ============================================================
 
-lint-catalog:
-	helm lint $(CHART_DIR)/catalog
+lint-booking:
+	helm lint $(CHART_DIR)/booking
 
-template-catalog:
-	helm template catalog $(CHART_DIR)/catalog
+template-booking:
+	helm template booking $(CHART_DIR)/booking
 
-lint-mysql:
-	helm lint $(CHART_DIR)/mysql
+lint-postgres:
+	helm lint $(CHART_DIR)/postgres
 
-template-mysql:
-	helm template mysql $(CHART_DIR)/mysql
+template-postgres:
+	helm template postgres $(CHART_DIR)/postgres
 
 # ============================================================
 # Help
@@ -164,42 +164,42 @@ help:
 # Install Beer-shop
 # ============================================================
 
-install-beer-shop:
-	helm upgrade --install beer-shop \
-	helm/beer-shop \
-	-n beer-shop
+install-sync-seat:
+	helm upgrade --install sync-seat \
+	helm/syncseat \
+	-n sync-seat
 
-install-beer-shop-dev:
-	helm upgrade --install beer-shop \
-	helm/beer-shop \
-	-f helm/beer-shop/values-dev.yaml \
-	-n beer-shop
+install-sync-seat-dev:
+	helm upgrade --install sync-seat \
+	helm/syncseat \
+	-f helm/syncseat/values-dev.yaml \
+	-n sync-seat
 
-install-beer-shop-prod:
-	helm upgrade --install beer-shop \
-	helm/beer-shop \
-	-f helm/beer-shop/values-prod.yaml \
-	-n beer-shop
+install-sync-seat-prod:
+	helm upgrade --install sync-seat \
+	helm/syncseat \
+	-f helm/syncseat/values-prod.yaml \
+	-n sync-seat
 
 # ============================================================
 # CI Validation
 # ============================================================
 
 helm-lint:
-	$(HELM) lint helm/beer-shop
+	$(HELM) lint helm/syncseat
 
 helm-template:
-	$(HELM) template beer-shop helm/beer-shop \
-		-f helm/beer-shop/values-dev.yaml \
-		> /tmp/beer-shop-rendered.yaml
+	$(HELM) template sync-seat helm/syncseat \
+		-f helm/syncseat/values-dev.yaml \
+		> /tmp/sync-seat-rendered.yaml
 
 # ============================================================
 # Kubernetes Manifest Validation
 # ============================================================
 
 k8s-validate:
-	$(HELM) template beer-shop helm/beer-shop \
-		-f helm/beer-shop/values-dev.yaml \
+	$(HELM) template sync-seat helm/syncseat \
+		-f helm/syncseat/values-dev.yaml \
 		| kubeconform -strict -summary
 
 helm-validate: helm-lint helm-template k8s-validate

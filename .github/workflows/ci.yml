@@ -1,11 +1,30 @@
-name: Blank Workflow
+name: GitOps Validation
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
 
 jobs:
-  do-nothing:
+  helm-validation:
+    name: Helm Validation
     runs-on: ubuntu-latest
+
     steps:
-      - name: Acknolwedge the job
-        run: echo "Hello, world!"
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+
+      - name: Setup Kubeconform
+        uses: bmuschko/setup-kubeconform@v1
+        with:
+          kubeconform-version: '0.6.7'
+
+      - name: Validate Helm and Kubernetes Manifests
+        run: make -f Makefile.helm helm-validate
