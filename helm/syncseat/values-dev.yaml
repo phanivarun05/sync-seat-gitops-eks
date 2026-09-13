@@ -42,7 +42,7 @@ redis:
 
 booking:
   image:
-    tag: "sha-2bee7c39ff80492e93dc78ba22c7fa8285627a64"
+    tag: "sha-c2f78b068d9436b504cff6241bccd0adc8f1c63e"
   replicaCount: 3
   resources:
     requests:
@@ -54,7 +54,7 @@ booking:
 
 mail:
   image:
-    tag: "sha-2bee7c39ff80492e93dc78ba22c7fa8285627a64"
+    tag: "sha-c2f78b068d9436b504cff6241bccd0adc8f1c63e"
   replicaCount: 1
   resources:
     requests:
@@ -66,7 +66,7 @@ mail:
 
 homepage:
   image:
-    tag: "sha-2bee7c39ff80492e93dc78ba22c7fa8285627a64"
+    tag: "sha-c2f78b068d9436b504cff6241bccd0adc8f1c63e"
   replicaCount: 1
   resources:
     requests:
@@ -78,7 +78,7 @@ homepage:
 
 api-gateway:
   image:
-    tag: "sha-2bee7c39ff80492e93dc78ba22c7fa8285627a64"
+    tag: "sha-c2f78b068d9436b504cff6241bccd0adc8f1c63e"
   replicaCount: 1
   resources:
     requests:
@@ -95,7 +95,7 @@ api-gateway:
 
 frontend:
   image:
-    tag: "sha-2bee7c39ff80492e93dc78ba22c7fa8285627a64"
+    tag: "sha-c2f78b068d9436b504cff6241bccd0adc8f1c63e"
   replicaCount: 1
   resources:
     requests:
