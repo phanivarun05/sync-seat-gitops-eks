@@ -1,0 +1,175 @@
+# ==========================================================
+# Production Environment (GKE)
+# ==========================================================
+
+global:
+  namespace: sync-seat
+
+  imagePullPolicy: IfNotPresent
+
+  storageClass: standard-rwo
+
+  environment:
+    name: production
+    type: production
+
+# ==========================================================
+# Infrastructure
+# ==========================================================
+
+postgres:
+  enabled: true
+  replicaCount: 1
+
+redis:
+  enabled: true
+  replicaCount: 1
+
+
+# ==========================================================
+# Backend Services
+# ==========================================================
+
+booking:
+  enabled: true
+  replicaCount: 3
+  
+  image:
+    tag: "sha-f7204ad"
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 70
+
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 2
+
+mail:
+  enabled: true
+  replicaCount: 3
+  
+  image:
+    tag: "sha-f7204ad"
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 70
+
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 2
+
+homepage:
+  enabled: true
+  replicaCount: 3
+  
+  image:
+    tag: "sha-f7204ad"
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+
+  autoscaling:
+    enabled: true
+
+    minReplicas: 2
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 70
+
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 2
+
+api-gateway:
+  enabled: true
+  replicaCount: 3
+  
+  image:
+    tag: "sha-f7204ad"
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 70
+
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 2
+
+
+
+# ==========================================================
+# Frontend
+# ==========================================================
+
+frontend:
+  enabled: true
+  replicaCount: 3
+
+  image:
+    tag: "sha-f7204ad"
+
+    
+# ==========================================================
+# Ingress
+# ==========================================================
+
+ingress:
+  enabled: true
+
+  annotations:
+    kubernetes.io/ingress.class: gce
+
+
+  hosts:
+    - host: shop.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+          service:
+            name: sync-seat-web-shop
+            port: 80
+
+
+    - host: api.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+          service:
+            name: sync-seat-api-gateway
+            port: 8000
