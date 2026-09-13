@@ -20,7 +20,7 @@ data:
         # 2. Reverse proxy routing to bypass the hardcoded backend CORS check
         location /api/ {
             # Pass traffic directly to the gateway container on the internal Docker network
-            proxy_pass http://api-gateway:4000/;
+            proxy_pass http://{{ .Release.Name }}-api-gateway:4000/;
 
             # Strip out the origin header so the backend's `!origin` check triggers true
             proxy_set_header Origin "";
